@@ -21,7 +21,7 @@ function createMap(earthquakes) {
     // Creating map and attaching it to 'map' div in index.html
     var map = L.map('map', {
         center: [36.2048, 138.2529],
-        zoom: 6, 
+        zoom: 5, 
         layers: [street, earthquakes]
     });
 
@@ -29,6 +29,30 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: true
     }).addTo(map);
+
+    // LEGEND
+    // Positioning the legend on the bottom right
+    var legend = L.control({position: 'bottomright'});
+
+    // Possible color options
+    var colorList = ['#00ff00', '#99ff00', '#ffcc00', '#ff9900', '#ff3300', '#ff0000'];
+
+    legend.onAdd = function(map) {
+        // Creating a new div in index.html with the 'legend'
+        var div = L.DomUtil.create('div', 'legend');
+        div.innerHTML += '<strong style="text-align: center">Depth</strong><br>';
+        div.innerHTML += '<i style="background: ' + colorList[0] + '"></i><span>-10-10</span><br>';
+        div.innerHTML += '<i style="background: ' + colorList[1] + '"></i><span>10-30</span><br>';
+        div.innerHTML += '<i style="background: ' + colorList[2] + '"></i><span>30-50</span><br>';
+        div.innerHTML += '<i style="background: ' + colorList[3] + '"></i><span>50-70</span><br>';
+        div.innerHTML += '<i style="background: ' + colorList[4] + '"></i><span>70-90</span><br>';
+        div.innerHTML += '<i style="background: ' + colorList[5] + '"></i><span>90+</span>';
+
+        return div;
+    }
+    
+    // Adding the legend to the map
+    legend.addTo(map);
 }
 
 // Function to create markers 
@@ -64,6 +88,7 @@ function createMarkers(response) {
         var marker = L.circle([earthquakes[i].geometry.coordinates[1], earthquakes[i].geometry.coordinates[0]], {
             fillOpacity: 0.75,
             color: 'black',
+            weight: 1,
             fillColor: color,
             // Adjusting the size of the circle according to the earthquake's magnitude
             radius: (earthquakes[i].properties.mag) * 5000
@@ -79,37 +104,11 @@ function createMarkers(response) {
     // Making earthquakeMarkers into a layer group and passing it into createMap function
     createMap(L.layerGroup(earthquakeMarkers));
 }
-/*
-function createLegend() {
-    // Positioning the legend on the bottom right
-    var legend = L.control({position: 'bottomright'});
 
-    // Possible color options
-    var colorList = ['#00ff00', '#99ff00', '#ffcc00', '#ff9900', '#ff3300', '#ff0000'];
-
-    legend.onAdd = function() {
-        // Creating a new div in index.html with the classes 'info' and 'legend'
-        var div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML += `<i style"background: ${colorList[0]}></i><span>-10-10</span><br>`;
-        div.innerHTML += `<i style"background: ${colorList[1]}></i><span>10-30</span><br>`;
-        div.innerHTML += `<i style"background: ${colorList[2]}></i><span>30-50</span><br>`;
-        div.innerHTML += `<i style"background: ${colorList[3]}></i><span>50-70</span><br>`;
-        div.innerHTML += `<i style"background: ${colorList[4]}></i><span>70-90</span><br>`;
-        div.innerHTML += `<i style"background: ${colorList[5]}></i><span>90+</span><br>`;
-
-        return div;
-    };
-    
-    // Adding the legend to the map
-    legend.addTo(map);
-}
-*/
 // Getting the data with d3
 d3.json(url).then(data => {
     // Running createMarkers function (with createMap function)
     createMarkers(data);
-    // Running createLegend function
-    //createLegend();
 });
 
 
