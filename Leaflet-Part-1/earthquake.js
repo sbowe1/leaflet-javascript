@@ -1,4 +1,4 @@
-// URL for significant earthquake data from the last 30 days
+// URL for M2.5+ earthquake data from the last 30 days
 url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson';
 
 // Function to create the map
@@ -20,7 +20,7 @@ function createMap(earthquakes) {
 
     // Creating map and attaching it to 'map' div in index.html
     var map = L.map('map', {
-        center: [36.2048, 138.2529],
+        center: [39.8283, -98.5795],
         zoom: 5, 
         layers: [street, earthquakes]
     });
@@ -110,6 +110,3 @@ d3.json(url).then(data => {
     // Running createMarkers function (with createMap function)
     createMarkers(data);
 });
-
-
-
