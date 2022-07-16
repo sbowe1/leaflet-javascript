@@ -40,7 +40,7 @@ function createMap(earthquakes) {
     legend.onAdd = function(map) {
         // Creating a new div in index.html with the 'legend'
         var div = L.DomUtil.create('div', 'legend');
-        div.innerHTML += '<strong style="text-align: center">Depth</strong><br>';
+        div.innerHTML += '<strong style="text-align: center">Depth (km)</strong><br>';
         div.innerHTML += '<i style="background: ' + colorList[0] + '"></i><span>-10-10</span><br>';
         div.innerHTML += '<i style="background: ' + colorList[1] + '"></i><span>10-30</span><br>';
         div.innerHTML += '<i style="background: ' + colorList[2] + '"></i><span>30-50</span><br>';
@@ -95,7 +95,7 @@ function createMarkers(response) {
         }).
             // Popup with earthquake info
             bindPopup(`<h3>${earthquakes[i].properties.place}</h3><hr><p>Time: ${new Date(earthquakes[i].properties.time)} \
-                <br>Magnitude: ${earthquakes[i].properties.mag}<br>Depth: ${earthquakes[i].geometry.coordinates[2]}</p>`);
+                <br>Magnitude: ${earthquakes[i].properties.mag}<br>Depth: ${earthquakes[i].geometry.coordinates[2]} km</p>`);
         
         // Adding marker to the earthquake markers array
         earthquakeMarkers.push(marker);
